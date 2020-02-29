@@ -1,18 +1,51 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="heading">
+      <h2>Finding Falcone!</h2>
+      <p>Select planet you want to search in:</p>
+    </div>
+    <div class="destination_container">
+      <div class="destination" v-for="(item, index) in destinations" v-bind:key="index">
+        <drop-down
+          :key="index"
+          :keyIndex="index"
+          :planetList="planetList"
+          :labelName="`Destination ${index + 1}`"
+          :placeholder="`Select`"
+          :onAutoComplete="handleAutoComplete"
+          :onSelectedVehicle="handleSelectedVehicle">
+        </drop-down>
+        <div v-if="item.vehicles.length > 0">
+          <div v-for="(vehicle, indexId) in vehiclesList" v-bind:key="vehicle.max_distance">
+            <radio-button
+              :keyIndex="destinations[index].name + '-' + indexId"
+              :nameKey="destinations[index].name"
+              :vehicle="vehicle">
+            </radio-button>
+          </div>
+        </div>
+      </div>
+      <h1 class="time_taken">Time Taken: 0</h1>
+    </div>
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+<script src="./js/home.js"></script>
+<style lang="scss" scoped>
+  .home {
+    margin: auto;
+    width: 75%;
+    .destination_container {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
 
-export default {
-  name: 'Home',
-  components: {
-    HelloWorld
+      .destination {
+        margin: 10px;
+      }
+    }
+    .time_taken {
+      margin-left: 25px;
+    }
   }
-}
-</script>
+</style>
