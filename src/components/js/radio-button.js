@@ -17,7 +17,7 @@ export default {
     onSelectedPods: {
       type: Function
     },
-    disablePods: {
+    isDisabled: {
       type: Boolean
     }
   },

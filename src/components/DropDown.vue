@@ -8,7 +8,7 @@
     <div v-show="isOpen && planetList.length">
       <ul class="autocomplete_results">
         <li class="autocomplete_result" v-for="(item, index) in planetList"
-        :key="index" @click="onSelectVehicle(item.name)">
+        :key="index" @click="onSelectVehicle(item)">
           {{item.name}}
         </li>
       </ul>

@@ -39,7 +39,7 @@ export default {
       this.onAutoComplete(event.target.value, this.keyIndex)
     },
     onSelectVehicle: function (value) {
-      this.selectedValue = value
+      this.selectedValue = value.name
       this.isOpen = false
       this.onSelectedVehicle(value, this.keyIndex)
     },

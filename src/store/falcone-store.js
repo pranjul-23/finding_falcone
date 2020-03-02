@@ -4,7 +4,9 @@ export default {
   namespaced: true,
   state: {
     planetsData: [],
-    vehiclesData: []
+    vehiclesData: [],
+    token: '',
+    planetDetails: {}
   },
   getters: {
     getPlanetsData (state) {
@@ -12,6 +14,12 @@ export default {
     },
     getVehiclesData (state) {
       return state.vehiclesData
+    },
+    getTokenValue (state) {
+      return state.token
+    },
+    getPlanetDetailData (state) {
+      return state.planetDetails
     }
   },
   mutations: {
@@ -20,6 +28,12 @@ export default {
     },
     setVehicles (state, value) {
       state.vehiclesData = value
+    },
+    setToken (state, value) {
+      state.token = value
+    },
+    setPlanetDetails (state, value) {
+      state.planetDetails = value
     }
   },
   actions: {
@@ -32,6 +46,19 @@ export default {
       api.getVehicles((result) => {
         commit('setVehicles', result.data)
       })
+    },
+    getToken ({ commit }, { payload }) {
+      api.getToken((result) => {
+        commit('setToken', result.data.token)
+      }, payload)
+    },
+    findingFalcone ({ commit }, { payload, success, failure }) {
+      api.getFalcone((result) => {
+        success && success(result)
+      }, payload, failure)
+    },
+    getPlanetDetails ({ commit }, { payload }) {
+      commit('setPlanetDetails', payload)
     }
   }
 }
