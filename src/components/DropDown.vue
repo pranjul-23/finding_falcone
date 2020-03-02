@@ -1,11 +1,11 @@
 <template>
-  <div class="main_container" v-click-outside="hideSelect">
+  <div class="main_container" v-click-outside="hideSelect" :id="keyIndex">
     <label for="dropdown">{{labelName}}</label>
     <div class="drop_down" @click="toggleDropDown()">
       <input type="text" @input="onSearchKey" :value="selectedValue" :placeholder="placeholder">
       <div class="drop_down_arrow"><span></span></div>
     </div>
-    <div v-if="isOpen">
+    <div v-show="isOpen && planetList.length">
       <ul class="autocomplete_results">
         <li class="autocomplete_result" v-for="(item, index) in planetList"
         :key="index" @click="onSelectVehicle(item.name)">

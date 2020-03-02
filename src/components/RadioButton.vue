@@ -1,9 +1,7 @@
 <template>
-    <div class="main_container">
-        <div class="radio-button" @click="getSelectedVehicle()">
-            <input type="radio" :name="nameKey" :id="keyIndex">
-            <label :for="keyIndex" class="radio-label">{{vehicle.name}} ({{vehicle.total_no}})</label>
-        </div>
+    <div class="radio-button">{{disablePods}}
+        <input type="radio" :name="nameKey" :id="keyIndex" @change="getSelectedVehicle()" :disabled="disablePods">
+        <label :for="keyIndex" class="radio-label">{{vehicle.name}} ({{vehicle.total_no}})</label>
     </div>
 </template>
 
@@ -12,10 +10,10 @@
 <style lang="scss" scoped>
 $color1: #f4f4f4;
 $color2: #ff8000;
-.main_container {
-    .radio-button {
-        margin-top: 20px;
-        margin-bottom: 20px;
+
+.radio-button {
+    margin-top: 20px;
+    margin-bottom: 20px;
     input[type="radio"] {
         position: absolute;
         opacity: 0;
@@ -53,7 +51,6 @@ $color2: #ff8000;
             }
         }
         }
-    }
     }
 }
 </style>

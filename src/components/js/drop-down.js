@@ -11,6 +11,7 @@ export default {
   props: {
     planetList: {
       type: Array,
+      required: false,
       default: () => []
     },
     labelName: {

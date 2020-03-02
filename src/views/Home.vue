@@ -15,17 +15,20 @@
           :onAutoComplete="handleAutoComplete"
           :onSelectedVehicle="handleSelectedVehicle">
         </drop-down>
-        <div v-if="item.vehicles.length > 0">
+        <div v-if="item.name.length > 0">
           <div v-for="(vehicle, indexId) in vehiclesList" v-bind:key="vehicle.max_distance">
             <radio-button
+              :indexId="index"
               :keyIndex="destinations[index].name + '-' + indexId"
               :nameKey="destinations[index].name"
-              :vehicle="vehicle">
+              :vehicle="vehicle"
+              :onSelectedPods="handleSelectedPods"
+              :disablePods="item.distance > vehicle.max_distance">
             </radio-button>
           </div>
         </div>
       </div>
-      <h1 class="time_taken">Time Taken: 0</h1>
+      <h1 class="time_taken">Time Taken: {{totalTimeTaken}}</h1>
     </div>
   </div>
 </template>

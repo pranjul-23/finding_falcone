@@ -7,28 +7,29 @@ export default {
   data () {
     return {
       destinations: [{
-        name: 'Space pod',
+        name: '',
         distance: 0,
         speed: 0,
         vehicles: ''
       }, {
-        name: 'Space rocket',
+        name: '',
         distance: 0,
         speed: 0,
         vehicles: ''
       }, {
-        name: 'Space shuttle',
+        name: '',
         distance: 0,
         speed: 0,
         vehicles: ''
       }, {
-        name: 'Space ship',
+        name: '',
         distance: 0,
         speed: 0,
         vehicles: ''
       }],
       planetList: [],
-      vehiclesList: []
+      vehiclesList: [],
+      selectedVehicles: []
     }
   },
   components: {
@@ -40,15 +41,37 @@ export default {
     this.$store.dispatch('falcone/getVehicles')
   },
   computed: {
-    ...mapGetters('falcone', ['getPlanetsData', 'getVehiclesData'])
+    ...mapGetters('falcone', ['getPlanetsData', 'getVehiclesData']),
+    totalTimeTaken: function () {
+      let totalTime = 0
+      this.destinations.forEach(element => {
+        if (element.distance > 0 && element.speed) {
+          totalTime = totalTime + (element.distance / element.speed)
+        }
+      })
+      return totalTime
+    }
   },
   methods: {
-    handleAutoComplete: function (item, index) {
-      console.log('****', item, index)
+    handleAutoComplete: function (item) {
+      this.planetList = this.getPlanetsData.filter(el => el.name.toLowerCase().indexOf(item.toLowerCase()) > -1)
     },
     handleSelectedVehicle: function (item, index) {
-      console.log('****>>>>>>', item, index)
-      this.destinations[index].vehicles = item
+      console.log('37468734672864')
+      if (!this.selectedVehicles.includes(item)) {
+        this.selectedVehicles.push(item)
+      }
+      this.destinations[index].name = item
+      this.planetList = this.getPlanetsData.filter(el => !this.selectedVehicles.includes(el.name))
+    },
+    handleSelectedPods: function (pods, index) {
+      this.destinations[index].distance = pods.max_distance
+      this.destinations[index].speed = pods.speed
+      this.vehiclesList.forEach((element, indexId) => {
+        if (element.max_distance === pods.max_distance && element.total_no !== 0 && this.destinations[index].distance) {
+          this.vehiclesList[indexId].total_no -= 1
+        }
+      })
     }
   },
   watch: {
