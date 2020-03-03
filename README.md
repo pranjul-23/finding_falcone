@@ -1,3 +1,7 @@
+# install vue cli globally
+```
+npm install -g @vue/cli
+```
 # finding_falcone
 
 ## Project setup
