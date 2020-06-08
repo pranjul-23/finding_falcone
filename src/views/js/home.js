@@ -35,7 +35,9 @@ export default {
       vehiclesList: [],
       selectedVehicles: {},
       isDisabled: false,
-      availablePlanetList: []
+      availablePlanetList: [],
+      isError: false,
+      errorMsg: 'Something went wrong!'
     }
   },
   components: {
@@ -43,10 +45,18 @@ export default {
     RadioButton
   },
   created () {
-    this.$store.dispatch('falcone/getPlanets')
-    this.$store.dispatch('falcone/getVehicles')
+    this.$store.dispatch('falcone/getPlanets', {
+      success: this.getPlanetSuccessfully,
+      failure: this.getPlanetFailure
+    })
+    this.$store.dispatch('falcone/getVehicles', {
+      success: this.getVehiclesSuccessfully,
+      failure: this.getVehiclesFailure
+    })
     this.$store.dispatch('falcone/getToken', {
-      payload: {}
+      payload: {},
+      success: this.getTokenSuccessfully,
+      failure: this.getTokenFailure
     })
   },
   computed: {
@@ -110,16 +120,17 @@ export default {
       }
       this.$store.dispatch('falcone/findingFalcone', {
         payload: payload,
-        success: this.successFun,
-        failure: this.failureFun
+        success: this.findFalconeSuccessfully,
+        failure: this.findFalconeFailure
       })
     },
-    successFun: function (res) {
+    findFalconeSuccessfully: function (res) {
       if (res.data.status === 'success') {
         const payload = {
           planet_name: res.data.planet_name,
           timeTaken: this.totalTimeTaken
         }
+        this.isError = false
         this.$store.dispatch('falcone/getPlanetDetails', { payload })
       } else {
         const payload = {}
@@ -127,8 +138,40 @@ export default {
       }
       this.$router.push({ path: '/success-page' })
     },
-    failureFun: function (err) {
-      console.log('error', err)
+    findFalconeFailure: function (err) {
+      if (err) {
+        this.isError = true
+      }
+    },
+    getPlanetSuccessfully (res) {
+      if (res) {
+        this.isError = false
+      }
+    },
+    getPlanetFailure (err) {
+      if (err) {
+        this.isError = true
+      }
+    },
+    getVehiclesSuccessfully (res) {
+      if (res) {
+        this.isError = false
+      }
+    },
+    getVehiclesFailure (err) {
+      if (err) {
+        this.isError = true
+      }
+    },
+    getTokenSuccessfully (res) {
+      if (res) {
+        this.isError = false
+      }
+    },
+    getTokenFailure (err) {
+      if (err) {
+        this.isError = true
+      }
     }
   },
   watch: {

@@ -44,20 +44,23 @@ export default {
     }
   },
   actions: {
-    getPlanets ({ commit }) {
+    getPlanets ({ commit }, { success, failure }) {
       api.getPlanets((result) => {
+        success && success(result.data)
         commit('setPlanets', result.data)
-      })
+      }, failure)
     },
-    getVehicles ({ commit }) {
+    getVehicles ({ commit }, { success, failure }) {
       api.getVehicles((result) => {
+        success && success(result.data)
         commit('setVehicles', result.data)
-      })
+      }, failure)
     },
-    getToken ({ commit }, { payload }) {
+    getToken ({ commit }, { payload, success, failure }) {
       api.getToken((result) => {
+        success && success(result.data)
         commit('setToken', result.data.token)
-      }, payload)
+      }, payload, failure)
     },
     findingFalcone ({ commit }, { payload, success, failure }) {
       api.getFalcone((result) => {

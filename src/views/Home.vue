@@ -6,6 +6,10 @@
       <a href="https://www.geektrust.in/">Geek Trust Home</a>
     </div>
     <div class="container">
+      <div class="error__box" v-if="isError">
+        <div class="error__box--text">{{errorMsg}}</div>
+        <router-link class="error__box--reset" to="/">Start Again</router-link>
+      </div>
       <div class="header__box">
         <h1>Finding Falcone!</h1>
         <h3>Select planet you want to search in:</h3>
@@ -56,6 +60,29 @@
 <style lang="scss" scoped>
   .home {
     padding: 20px;
+    .error__box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      height: 250px;
+      background-color: indianred;
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -30%);
+      z-index: 999;
+
+      &--text {
+        color: #fff;
+        font-size: 20px;
+      }
+      &--reset {
+        color: #fff;
+        padding-left: 6px;
+        font-size: 20px;
+      }
+    }
     .reset__box {
       display: flex;
       justify-content: flex-end;
