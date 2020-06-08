@@ -1,9 +1,11 @@
 <template>
   <div class="main_container" v-click-outside="hideSelect" :id="keyIndex">
-    <label for="dropdown">{{labelName}}</label>
-    <div class="drop_down" @click="toggleDropDown()">
+    <label>{{labelName}}</label>
+    <div class="dropdown" @click="toggleDropDown()">
       <input type="text" @input="onSearchKey" :value="selectedValue" :placeholder="placeholder">
-      <div class="drop_down_arrow"><span></span></div>
+      <div class="select">
+        <img src="@/assets/arrow-down.png" :class="{'icon-down' : isOpen}">
+      </div>
     </div>
     <div v-show="isOpen && planetList.length">
       <ul class="autocomplete_results">
@@ -20,45 +22,43 @@
 
 <style lang="scss" scoped>
 .main_container {
-  .drop_down {
+  .dropdown {
     display: flex;
-    width: 200px;
-    height: 36px;
-    border: 1px solid #808080;
-    padding-right: 6px;
-    padding-left: 6px;
-
+    width: 165px;
+    height: 45px;
+    border: 1px solid lightgray;
+    border-radius: 6px;
+    background-color: lightgray;
+    padding: 0 6px;
     input[type="text"] {
       width: 100%;
-      height: 34px;
       outline: none;
       border: 0;
+      background-color: inherit;
     }
-    &_arrow {
+    .select {
       position: relative;
       left: 7px;
-      width: 25px;
-      height: 36px;
-      border: 1px solid #808080;
-      background-color: #ff8000;
+      width: 40px;
+      height: 35px;
       cursor: pointer;
-      span {
-        border: solid #ffffff;
-        border-width: 0 3px 3px 0;
-        display: inline-block;
-        padding: 3px;
-        position: relative;
-        left: 6px;
-        top: 4px;
-        transform: rotate(45deg);
+      img {
+        position: absolute;
+        left: 5px;
+        top: 15px;
+        width: 15px;
+        height: 15px;
+      }
+      .icon-down {
+        transform: rotate(180deg);
       }
     }
   }
   .autocomplete_results {
-    margin: 0;
+    margin: 4px 0;
     padding: 0;
-    width: 211px;
-    border: 1px solid #808080;
+    width: 175px;
+    box-shadow: 0 3px 10px 0 rgba(34,36,38,.15);
     position: absolute;
     z-index: 99;
     background-color: #ffffff;

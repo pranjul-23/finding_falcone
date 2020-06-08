@@ -7,5 +7,10 @@ export default {
     planetDetails: function () {
       return this.getPlanetDetailData ? this.getPlanetDetailData.planet_name : {}
     }
+  },
+  methods: {
+    goToHomePage () {
+      window.location.href = '/'
+    }
   }
 }

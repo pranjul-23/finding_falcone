@@ -33,8 +33,9 @@ export default {
       }],
       planetList: [],
       vehiclesList: [],
-      selectedVehicles: [],
-      isDisabled: false
+      selectedVehicles: {},
+      isDisabled: false,
+      availablePlanetList: []
     }
   },
   components: {
@@ -49,7 +50,7 @@ export default {
     })
   },
   computed: {
-    ...mapGetters('falcone', ['getPlanetsData', 'getVehiclesData', 'getTokenValue']),
+    ...mapGetters('falcone', ['getPlanetsData', 'getVehiclesData', 'getTokenValue', 'getAvailablePlanetList']),
     totalTimeTaken: function () {
       let totalTime = 0
       this.destinations.forEach(element => {
@@ -65,31 +66,39 @@ export default {
     }
   },
   methods: {
-    handleAutoComplete: function (item) {
-      this.planetList = this.getPlanetsData.filter(el => el.name.toLowerCase().indexOf(item.toLowerCase()) > -1)
-    },
-    handleSelectedVehicle: function (item, index) {
-      if (!this.selectedVehicles.includes(item.name)) {
-        this.selectedVehicles.push(item.name)
+    handleSearchPlanet: function (item, index) {
+      if (item.length > 0) {
+        this.planetList = this.availablePlanetList.filter(el => el.name.toLowerCase().indexOf(item.toLowerCase()) > -1)
+      } else {
+        this.selectedVehicles[index] = ''
+        this.planetList = this.getPlanetsData.filter(el => !Object.values(this.selectedVehicles).includes(el.name))
+        this.$store.dispatch('falcone/updatedPlanetList', this.planetList)
       }
+    },
+    handleSelectedPlanet: function (item, index) {
+      this.selectedVehicles[index] = item.name
       this.destinations[index].name = item.name
       this.destinations[index].distance = item.distance
-      this.planetList = this.getPlanetsData.filter(el => !this.selectedVehicles.includes(el.name))
+      this.planetList = this.getPlanetsData.filter(el => !Object.values(this.selectedVehicles).includes(el.name))
+      this.$store.dispatch('falcone/updatedPlanetList', this.planetList)
       this.vehiclesList.forEach((el, indexId) => {
-        if (el.max_distance >= item.distance) {
-          this.vehiclesList[indexId].isDisabled = false
-        } else {
+        if (el.max_distance < item.distance) {
           this.vehiclesList[indexId].isDisabled = true
+        } else {
+          this.vehiclesList[indexId].isDisabled = false
         }
       })
     },
-    handleSelectedPods: function (pods, index) {
+    handleSelectedVehicles: function (pods, index) {
       this.destinations[index].vehicles = pods.name
       this.destinations[index].max_distance = pods.max_distance
       this.destinations[index].speed = pods.speed
       this.vehiclesList.forEach((element, indexId) => {
-        if (element.max_distance === pods.max_distance && element.total_no !== 0 && this.destinations[index].max_distance) {
+        if (element.max_distance === pods.max_distance && element.total_no > 0 && pods.total_no !== 0) {
           this.vehiclesList[indexId].total_no -= 1
+          this.vehiclesList[indexId].isDisabled = false
+        } else {
+          this.vehiclesList[indexId].isDisabled = true
         }
       })
     },
@@ -125,9 +134,13 @@ export default {
   watch: {
     getPlanetsData (newValue) {
       this.planetList = newValue
+      this.availablePlanetList = newValue
     },
     getVehiclesData (newValue) {
       this.vehiclesList = newValue
+    },
+    getAvailablePlanetList (newValue) {
+      this.availablePlanetList = newValue
     }
   }
 }

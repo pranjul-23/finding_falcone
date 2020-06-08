@@ -14,16 +14,18 @@ export default {
     nameKey: {
       type: String
     },
-    onSelectedPods: {
+    onSelectedVehicles: {
       type: Function
-    },
-    isDisabled: {
-      type: Boolean
+    }
+  },
+  computed: {
+    disableVehicles () {
+      return this.vehicle.isDisabled
     }
   },
   methods: {
     getSelectedVehicle: function () {
-      this.onSelectedPods(this.vehicle, this.indexId)
+      this.onSelectedVehicles(this.vehicle, this.indexId)
     }
   }
 }

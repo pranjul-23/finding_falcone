@@ -6,7 +6,8 @@ export default {
     planetsData: [],
     vehiclesData: [],
     token: '',
-    planetDetails: {}
+    planetDetails: {},
+    availablePlanetList: []
   },
   getters: {
     getPlanetsData (state) {
@@ -20,6 +21,9 @@ export default {
     },
     getPlanetDetailData (state) {
       return state.planetDetails
+    },
+    getAvailablePlanetList (state) {
+      return state.availablePlanetList
     }
   },
   mutations: {
@@ -34,6 +38,9 @@ export default {
     },
     setPlanetDetails (state, value) {
       state.planetDetails = value
+    },
+    setUpdatedPlanetList (state, value) {
+      state.availablePlanetList = value
     }
   },
   actions: {
@@ -59,6 +66,9 @@ export default {
     },
     getPlanetDetails ({ commit }, { payload }) {
       commit('setPlanetDetails', payload)
+    },
+    updatedPlanetList ({ commit }, data) {
+      commit('setUpdatedPlanetList', data)
     }
   }
 }

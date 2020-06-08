@@ -1,7 +1,7 @@
 <template>
     <div class="radio-button">
-        <input type="radio" :name="nameKey" :id="keyIndex" @change="getSelectedVehicle()" :disabled="vehicle.isDisabled">
-        <label :for="keyIndex" :class="{'isDisable': vehicle.isDisabled}" class="radio-label">{{vehicle.name}} ({{vehicle.total_no}})</label>
+        <input type="radio" :name="nameKey" :id="keyIndex" @change="getSelectedVehicle()" :disabled="disableVehicles">
+        <label :for="keyIndex" :class="{'isDisable': disableVehicles}" class="radio-label">{{vehicle.name}} ({{vehicle.total_no}})</label>
     </div>
 </template>
 
@@ -21,7 +21,6 @@ $color2: #ff8000;
             cursor: pointer;
         &:before {
             content: '';
-            background: $color1;
             border-radius: 100%;
             border: 1px solid darken($color1, 25%);
             display: inline-block;
@@ -31,7 +30,6 @@ $color2: #ff8000;
             top: -0.2em;
             margin-right: 1em;
             vertical-align: top;
-            // cursor: pointer;
             text-align: center;
             transition: all 250ms ease;
         }
@@ -54,7 +52,8 @@ $color2: #ff8000;
         }
     }
     .isDisable {
-        color: #808080;
+      pointer-events: none;
+      opacity: 0.6;
     }
 }
 </style>

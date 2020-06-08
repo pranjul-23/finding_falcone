@@ -23,10 +23,10 @@ export default {
     placeholder: {
       type: String
     },
-    onAutoComplete: {
+    onSearchPlanet: {
       type: Function
     },
-    onSelectedVehicle: {
+    onSelectedPlanet: {
       type: Function
     }
   },
@@ -36,12 +36,12 @@ export default {
     },
     onSearchKey: function (event) {
       this.selectedValue = event.target.value
-      this.onAutoComplete(event.target.value, this.keyIndex)
+      this.onSearchPlanet(event.target.value, this.keyIndex)
     },
-    onSelectVehicle: function (value) {
+    onSelectVehicle: function (value, index) {
       this.selectedValue = value.name
       this.isOpen = false
-      this.onSelectedVehicle(value, this.keyIndex)
+      this.onSelectedPlanet(value, this.keyIndex)
     },
     hideSelect: function () {
       this.isOpen = false
